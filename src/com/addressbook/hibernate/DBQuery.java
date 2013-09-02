@@ -44,12 +44,12 @@ public class DBQuery {
 	 */	
 	public boolean add(String name, String number) {
 		boolean status = false;
-		
-		//if number contains any other character except 0-9, return false
+
+		// if number contains any other character except 0-9, return false
 		String regex = "[0-9]+";
-		if(!(number.matches(regex)))
+		if (!(number.matches(regex)))
 			return status;
-		
+
 		AddressBookEntry entry = new AddressBookEntry();
 		entry.setContactName(name);
 		entry.setContactNumber(number);
@@ -62,11 +62,34 @@ public class DBQuery {
 			ss.getTransaction().commit();
 			status = true;
 		} catch (Exception e) {
-			System.out.println("Failed to persist the contact with name = " + name  + " contact = " + number + " reaon: " + e.getMessage());
+			System.out.println("Failed to persist the contact with name = "
+					+ name + " contact = " + number + " reaon: "
+					+ e.getMessage());
 		} finally {
 			ss.close();
 		}
-		
+
 		return status;
+	}
+	
+	/**
+	 * DROP - drops the entire table
+	 * Utility method for JUnit setup and teardown
+	 */
+	public void dropTable() {
+		Session ss = null;
+
+		try {
+			ss = DBConnector.getFactory().openSession();
+			ss.beginTransaction();
+			ss.createSQLQuery("DROP TABLE addressbook").executeUpdate();
+			ss.getTransaction().commit();
+		} catch (Exception e) {
+			System.out.println("Failed to drop table AddressBookEntry. reason:"
+					+ e.getMessage());
+		} finally {
+			ss.close();
+		}
+
 	}
 }
