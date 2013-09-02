@@ -26,6 +26,16 @@ public class ContactsTest {
 	}
 	
 	@Test
+	public void validateRESTGetIsSortedByName() throws Exception{
+		String expectedResultPart1 = "\"Name\":\"John\",\"Number\":\"0404555999\"}";
+		String expectedResultPart2 = "\"Name\":\"Bia\",\"Number\":\"0404555777\"}";
+		Contacts contact = new Contacts();
+		String actualResult = contact.returnContacts();
+		
+		assertTrue(actualResult.indexOf(expectedResultPart1)>actualResult.indexOf(expectedResultPart2));
+	}
+	
+	@Test
 	public void validateRESTAddMethod() throws Exception{
 		
 		String expectedResultPart1 = "\"Name\":\"John\",\"Number\":\"0404555999\"}";

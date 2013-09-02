@@ -41,7 +41,12 @@ public class Contacts {
 		return result;
 	}
 	
-	
+	/**
+	 * This metho
+	 * @param newEntry
+	 * @return
+	 * @throws Exception
+	 */
 	@PUT
 	@Path("/addContact/{newEntry}")
 	@Consumes("application/text")
