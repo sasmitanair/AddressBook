@@ -5,7 +5,6 @@ import java.util.List;
 import org.hibernate.Session;
 
 public class DBQuery {
-
 	
 	/**
 	 * SELECT - Retrieve data from DB
@@ -21,8 +20,7 @@ public class DBQuery {
 		try {
 			session = DBConnector.getFactory().openSession();
 			session.beginTransaction();
-			contactsList = session.createQuery("from AddressBookEntry").list();
-			System.out.println("contactsList = " + contactsList.size());
+			contactsList = session.createQuery("from AddressBookEntry Order by ContactName").list();
 		} catch (Exception e) {
 			System.out.println("EXCEPTION while retrieving from DB. reason: " + e.getMessage());
 		} finally {
@@ -52,6 +50,7 @@ public class DBQuery {
 		AddressBookEntry entry = new AddressBookEntry();
 		entry.setContactName(name);
 		entry.setContactNumber(number);
+		
 		Session ss = null;
 
 		try {
@@ -65,7 +64,9 @@ public class DBQuery {
 					+ name + " contact = " + number + " reaon: "
 					+ e.getMessage());
 		} finally {
-			ss.close();
+			if (ss != null) {
+				ss.close();
+			}
 		}
 
 		return status;
@@ -87,7 +88,9 @@ public class DBQuery {
 			System.out.println("Failed to drop table AddressBookEntry. reason:"
 					+ e.getMessage());
 		} finally {
-			ss.close();
+			if (ss != null) {
+				ss.close();
+			}
 		}
 
 	}

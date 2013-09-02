@@ -1,6 +1,7 @@
 package com.addressbook.rest;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -12,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.bind.annotation.XmlRootElement;
 import com.addressbook.hibernate.AddressBookEntry;
 import com.addressbook.hibernate.DBQuery;
+import com.addressbook.util.CompareAddressBooks;
 import com.addressbook.util.ToJSON;
 
 /**
@@ -41,8 +43,9 @@ public class Contacts {
 		return result;
 	}
 	
+	
 	/**
-	 * This metho
+	 * This method adds the new contact details to the address book
 	 * @param newEntry
 	 * @return
 	 * @throws Exception
@@ -63,6 +66,25 @@ public class Contacts {
 		
 		//return the updated contactlist
 		return returnContacts();
+	}
+	
+	@PUT
+	@Path("/compare")
+	@Consumes("application/json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String compare(String userProvidedContactList ) throws Exception{ 
+		
+		System.out.println("input book = " + userProvidedContactList);
+		if(userProvidedContactList==null || userProvidedContactList.isEmpty())
+			return "Address book provided as input is EMPTY";
+		
+
+		DBQuery query = new DBQuery();
+		List<AddressBookEntry> availableContactList = query.get();
+		Map<String,String> uniqueSet = (new CompareAddressBooks()).compare(availableContactList, userProvidedContactList);
+		ToJSON formatter = new ToJSON();
+		
+		return formatter.toJSONArray(uniqueSet).toString();
 	}
 
 }

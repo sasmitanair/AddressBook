@@ -15,24 +15,43 @@ import java.util.*;
 public class ToJSON {
 
 	/**
-	 * Converts the contact rows retrieved from the db into JSON format 
+	 * Converts the rows retrieved from db into JSON format 
 	 * @param resultset
 	 * @return
 	 * @throws Exception
 	 */
 	public JSONArray toJSONArray(List<AddressBookEntry> resultset) throws Exception{
 		JSONArray json = new JSONArray();
-		String name="";
-		String number="";
 		try{
 			Iterator<AddressBookEntry> it = resultset.iterator();
 			while(it.hasNext()){
 				AddressBookEntry entry = it.next();
-				name = entry.getContactName();
-				number = entry.getContactNumber();
 				JSONObject jsonObj = new JSONObject();
-				jsonObj.put("Name", name);
-				jsonObj.put("Number", number);
+				jsonObj.put("Name", entry.getContactName());
+				jsonObj.put("Number", entry.getContactNumber());
+				json.put(jsonObj);
+			}
+			
+		}catch(Exception e){
+			System.out.println("Failed to build the json array... reason: " + e.getMessage());
+			
+		}
+		return json;
+	}
+	
+	/**
+	 * Converts the Map of unique contact list into JSON format 
+	 * @param resultset
+	 * @return
+	 * @throws Exception
+	 */
+	public JSONArray toJSONArray(Map<String,String> uniqueContacts) throws Exception{
+		JSONArray json = new JSONArray();
+		try{
+			for(Map.Entry<String, String> entry : uniqueContacts.entrySet()){
+				JSONObject jsonObj = new JSONObject();
+				jsonObj.put("Number", entry.getKey());
+				jsonObj.put("Name", entry.getValue());
 				json.put(jsonObj);
 			}
 			
