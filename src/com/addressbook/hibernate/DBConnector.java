@@ -5,6 +5,11 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
+/**
+ * This class is the hibernate layer that interfaces between the Model object with the database 
+ * @author CompAdmin
+ *
+ */
 public class DBConnector {
 
 	private static DBConnector connector = null;
@@ -18,6 +23,13 @@ public class DBConnector {
 		ServiceRegistry registry = new ServiceRegistryBuilder().applySettings(
 				configure.getProperties()).buildServiceRegistry();
 		factory = configure.buildSessionFactory(registry);
+	}
+	
+	public static void createInstance(){
+	
+		if (connector == null) {
+			connector = new DBConnector();
+		}
 	}
 
 	public static SessionFactory getFactory() {

@@ -8,7 +8,6 @@ public class DBQuery {
 	
 	/**
 	 * SELECT - Retrieve data from DB
-	 * TODO: Given the name of the address book, fetch the list of stored contacts
 	 * For now assuming only one addressBook.
 	 * Hence a get should return the list of contacts from the db
 	 * @param addressBookId

@@ -33,14 +33,10 @@ public class Contacts {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String returnContacts()throws Exception{
-		String result = "";
-		
-		DBQuery query = new DBQuery();
-		List<AddressBookEntry> contactList = query.get();
+		List<AddressBookEntry> contactList = (new DBQuery()).get();
 		
 		ToJSON formatter = new ToJSON();
-		result = formatter.toJSONArray(contactList).toString();
-		return result;
+		return formatter.toJSONArray(contactList).toString();
 	}
 	
 	
@@ -73,11 +69,8 @@ public class Contacts {
 	@Consumes("application/json")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String compare(String userProvidedContactList ) throws Exception{ 
-		
-		System.out.println("input book = " + userProvidedContactList);
 		if(userProvidedContactList==null || userProvidedContactList.isEmpty())
 			return "Address book provided as input is EMPTY";
-		
 
 		DBQuery query = new DBQuery();
 		List<AddressBookEntry> availableContactList = query.get();
