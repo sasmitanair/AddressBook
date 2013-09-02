@@ -24,7 +24,7 @@ public class DBQuery {
 			contactsList = session.createQuery("from AddressBookEntry").list();
 			System.out.println("contactsList = " + contactsList.size());
 		} catch (Exception e) {
-
+			System.out.println("EXCEPTION while retrieving from DB. reason: " + e.getMessage());
 		} finally {
 			if (session != null) {
 				session.close();
@@ -37,7 +37,6 @@ public class DBQuery {
 
 	/**
 	 * INSERT - Add new contacts to db
-	 * 
 	 * @param name
 	 * @param number
 	 * @return
@@ -58,7 +57,7 @@ public class DBQuery {
 		try {
 			ss = DBConnector.getFactory().openSession();
 			ss.beginTransaction();
-			ss.save(entry);
+			ss.saveOrUpdate(entry);
 			ss.getTransaction().commit();
 			status = true;
 		} catch (Exception e) {
