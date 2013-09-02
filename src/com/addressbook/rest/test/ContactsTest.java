@@ -1,11 +1,7 @@
 package com.addressbook.rest.test;
 
-import javax.xml.bind.JAXBElement;
-
 import org.junit.Before;
 import org.junit.Test;
-
-import com.addressbook.hibernate.AddressBookEntry;
 import com.addressbook.hibernate.DBQuery;
 import com.addressbook.rest.Contacts;
 
@@ -48,7 +44,7 @@ public class ContactsTest {
 		
 		Contacts contact = new Contacts();
 		String actualResult = contact.add("038989899");
-		assertTrue(actualResult==null);
+		assertTrue(actualResult.equals(Contacts.errorString));
 
 		
 	}
@@ -58,7 +54,7 @@ public class ContactsTest {
 		
 		Contacts contact = new Contacts();
 		String actualResult = contact.add("Abha");
-		assertTrue(actualResult==null);
+		assertTrue(actualResult.equals(Contacts.errorString));
 
 		
 	}
@@ -68,7 +64,7 @@ public class ContactsTest {
 		
 		Contacts contact = new Contacts();
 		String actualResult = contact.add(null);
-		assertTrue(actualResult==null);
+		assertTrue(actualResult.equals(Contacts.errorString));
 
 		
 	}
@@ -78,7 +74,7 @@ public class ContactsTest {
 		
 		Contacts contact = new Contacts();
 		String actualResult = contact.add("0389454545-Abha");
-		assertTrue(actualResult==null);
+		assertTrue(actualResult.equals(Contacts.errorString));
 
 		
 	}

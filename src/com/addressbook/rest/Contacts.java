@@ -14,9 +14,19 @@ import com.addressbook.hibernate.AddressBookEntry;
 import com.addressbook.hibernate.DBQuery;
 import com.addressbook.util.ToJSON;
 
+/**
+ * This class exposes the REST Web Service methods for:
+ * - retrieving the existing contact list
+ * - adding new contacts to the address book
+ * - comparing different address books to find unique contacts
+ * @author CompAdmin
+ *
+ */
 @XmlRootElement
 @Path("/v1/contacts")
 public class Contacts {
+	
+	public static final String errorString = "Wrong input format. Valid input pattern is ContactName-ContactNumber";
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -34,17 +44,18 @@ public class Contacts {
 	
 	@PUT
 	@Path("/addContact/{newEntry}")
-	@Consumes("application/xml")
+	@Consumes("application/text")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String add(@PathParam("newEntry") String newEntry ) throws Exception{ 
 		
 		if(newEntry==null || !newEntry.contains("-"))
-			return null;
+			return errorString;
 		
 		String[] token = newEntry.split("-");
 		DBQuery query = new DBQuery();
 		if(!query.add(token[0], token[1]))
-			return null;
+			return errorString;
+		
 		//return the updated contactlist
 		return returnContacts();
 	}
